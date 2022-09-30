@@ -11,4 +11,5 @@ export const LoginFormLayout = styled.div`
 
 export const LoginFormLabel = memo(styled.label`
   color: #3a3a3a;
+  font-size: 12px;
 `);

@@ -62,13 +62,13 @@ const Link = styled(BaseLink)<Props>`
           padding: 0 8px;
           height: 28px;
           font-size: 12px;
-        `
+        `;
       case 'xs':
         return `
           padding: 0 8px;
           height: 32px;
           font-size: 12px;
-        `
+        `;
       case 'sm':
         return `
           padding: 0 12px;

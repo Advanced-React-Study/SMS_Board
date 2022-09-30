@@ -1,11 +1,14 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Button from '../../../components/Button'
 import InputForm from '../../../components/InputForm'
+import { IsLoginAtom, UserListAtom } from '../../../stores/atom';
+import { EMAIL_REGEX } from '../../../utils/constants';
 import { LoginFormLayout } from './style';
 
-const EMAIL_REGEX = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-
 const useLoginForm = () => {
+  const userList = useRecoilValue(UserListAtom);
+  const setIsLogin = useSetRecoilState(IsLoginAtom);
   const [email, setEmail] = useState<string>('');
   const [emailValidation, setEmailValidation] = useState<boolean>(true);
   const [password, setPassword] = useState<string>('');
@@ -24,20 +27,25 @@ const useLoginForm = () => {
   }
 
   const login = () => {
-    // TODO: 로그인 기능 구현
-    if (!email || !EMAIL_REGEX.test(email)) {
+    if (!EMAIL_REGEX.test(email)) {
       setEmailValidation(false);
-      alert('알맞지 않은 이메일 형식입니다');
+      alert('Incorrect email format');
       return;
     }
 
     if (!password) {
       setPasswordValidation(false);
-      alert('비밀번호를 입력해주세요');
+      alert('Password is required');
       return;
     }
 
-    alert('로그인');
+    const user = userList.find((user) => user.email === email && user.password === password);
+    if (!user) {
+      alert('Please check your email or password again. You\'ve entered a wrong email or password.');
+      return;
+    }
+
+    setIsLogin(true);
   }
 
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {

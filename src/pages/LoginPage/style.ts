@@ -25,14 +25,11 @@ export const LoginWrap = styled.div`
   }
 `;
 
-export const LoginTitle = styled.p`
-  margin: 0;
+export const TitleWrap = styled.div`
   margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: 900;
 `
 
-export const LoginMenu = styled.div`
+export const SubMenuWrap = styled.div`
   display: flex;
   justify-content: right;
   gap: 4px;

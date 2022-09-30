@@ -1,21 +1,22 @@
 import React from 'react';
 import { FlexWrap, Link } from '../../components';
+import Title from '../../components/Title';
 import LoginForm from './LoginForm';
-import { Layout, LoginMenu, LoginTitle, LoginWrap, SideWrap } from './style';
+import { Layout, SubMenuWrap, TitleWrap, LoginWrap, SideWrap } from './style';
 
 function LoginPage() {
   return (
     <Layout>
       <FlexWrap alignItems={'center'} justifyContent={'center'}>
         <LoginWrap>
-          <LoginTitle>
-            로그인
-          </LoginTitle>
+          <TitleWrap>
+            <Title sz={'xl'} bold>로그인</Title>
+          </TitleWrap>
           <LoginForm />
-          <LoginMenu>
+          <SubMenuWrap>
             <Link to={'/'} hover variant={'text'} bold>비밀번호 찾기</Link>
-            <Link to={'/'} variant={'text'} bold>회원가입</Link>
-          </LoginMenu>
+            <Link to={'/register'} variant={'text'} bold>회원가입</Link>
+          </SubMenuWrap>
         </LoginWrap>
       </FlexWrap>
       <SideWrap />
