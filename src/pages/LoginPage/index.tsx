@@ -1,6 +1,5 @@
 import React from 'react';
-import { FlexWrap, Link } from '../../components';
-import Title from '../../components/Title';
+import { FlexWrap, Link, Title } from '../../components';
 import LoginForm from './LoginForm';
 import { Layout, SubMenuWrap, TitleWrap, LoginWrap, SideWrap } from './style';
 

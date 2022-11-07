@@ -1,14 +1,12 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { registerAPI } from '../../../api/user';
 import { Button, InputForm } from '../../../components';
-import { UserListAtom } from '../../../stores/atom';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '../../../utils/constants';
 import { RegisterFormLayout } from './style';
 
 const useRegisterForm = () => {
   const navigate = useNavigate();
-  const [userList, setUserList] = useRecoilState(UserListAtom);
   const [email, setEmail] = useState<string>('');
   const [emailValidation, setEmailValidation] = useState<boolean>(true);
   const [password, setPassword] = useState<string>('');
@@ -42,7 +40,7 @@ const useRegisterForm = () => {
     setNameValidation(!!value);
   }
 
-  const register = () => {
+  const register = async () => {
     if (!EMAIL_REGEX.test(email)) {
       setEmailValidation(false);
       alert('Incorrect email format');
@@ -67,24 +65,13 @@ const useRegisterForm = () => {
       return;
     }
 
-    const user = userList.find((user) => user.email === email);
-    if (user) {
-      setEmailValidation(false);
-      alert('Email is already exist');
-      return;
+    try {
+      await registerAPI(email, password, name);
+      navigate('/');
+    } catch (e) {
+      console.log(e);
+      alert('failed to login');
     }
-
-    setUserList((prev) => {
-      return [
-        ...prev,
-        {
-          email,
-          password,
-          name,
-        }
-      ];
-    });
-    navigate('/');
   }
 
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {

@@ -1,13 +1,13 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
+import { loginAPI } from '../../../api/user';
 import Button from '../../../components/Button'
 import InputForm from '../../../components/InputForm'
-import { IsLoginAtom, UserListAtom } from '../../../stores/atom';
-import { EMAIL_REGEX } from '../../../utils/constants';
+import { IsLoginAtom } from '../../../stores/atom';
+import { EMAIL_REGEX, KEY_IS_LOGIN } from '../../../utils/constants';
 import { LoginFormLayout } from './style';
 
 const useLoginForm = () => {
-  const userList = useRecoilValue(UserListAtom);
   const setIsLogin = useSetRecoilState(IsLoginAtom);
   const [email, setEmail] = useState<string>('');
   const [emailValidation, setEmailValidation] = useState<boolean>(true);
@@ -26,7 +26,7 @@ const useLoginForm = () => {
     setPasswordValidation(!!value);
   }
 
-  const login = () => {
+  const login = async () => {
     if (!EMAIL_REGEX.test(email)) {
       setEmailValidation(false);
       alert('Incorrect email format');
@@ -39,13 +39,13 @@ const useLoginForm = () => {
       return;
     }
 
-    const user = userList.find((user) => user.email === email && user.password === password);
-    if (!user) {
-      alert('Please check your email or password again. You\'ve entered a wrong email or password.');
-      return;
+    try {
+      await loginAPI(email, password);
+      localStorage.setItem(KEY_IS_LOGIN, '1');
+      setIsLogin(true);
+    } catch (e: any) {
+      alert('failed to login');
     }
-
-    setIsLogin(true);
   }
 
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {

@@ -1,6 +1,6 @@
 import React, { ChangeEvent, KeyboardEvent, useId } from 'react';
 import Input from '../Input';
-import { LoginFormLayout, LoginFormLabel } from './style'
+import { InputFormLayout, InputFormLabel } from './style';
 
 interface Props {
   label?: string;
@@ -18,10 +18,10 @@ const InputForm = (props: Props) => {
   const id = useId();
 
   return (
-    <LoginFormLayout>
-      {label && <LoginFormLabel htmlFor={id}>{label}</LoginFormLabel>}
+    <InputFormLayout>
+      {label && <InputFormLabel htmlFor={id}>{label}</InputFormLabel>}
       <Input id={id} type={type} placeholder={placeholder} value={value} onChange={onChange} onKeyDown={onKeyDown} borderColor={validation ? 'default' : 'error'} />
-    </LoginFormLayout>
+    </InputFormLayout>
   )
 }
 
