@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getBoardAPI, postBoardAPI, putBoardAPI } from '../../../api/board';
 import { Button, InputForm, TextAreaForm } from '../../../components';
@@ -9,15 +9,15 @@ const useForm = (id?: string) => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
 
-  const onChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeTitle = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     setTitle(value);
-  }
+  }, [setTitle]);
 
-  const onChangeContent = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const onChangeContent = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.currentTarget;
     setContent(value);
-  }
+  }, [setContent]);
 
   const getBoard = async (id: string) => {
     const response = await getBoardAPI(id);
@@ -43,8 +43,8 @@ const useForm = (id?: string) => {
 
   useEffect(() => {
     if (!id) return;
-    
-    getBoard(id);
+
+    void getBoard(id);
   }, []);
   
   return {

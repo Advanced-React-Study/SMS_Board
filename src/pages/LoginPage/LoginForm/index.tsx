@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { loginAPI } from '../../../api/user';
 import Button from '../../../components/Button'
@@ -14,17 +14,17 @@ const useLoginForm = () => {
   const [password, setPassword] = useState<string>('');
   const [passwordValidation, setPasswordValidation] = useState<boolean>(true);
 
-  const onChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeEmail = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     setEmail(value);
     setEmailValidation(EMAIL_REGEX.test(value));
-  }
+  }, [setEmail, setEmailValidation]);
 
-  const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangePassword = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     setPassword(value);
     setPasswordValidation(!!value);
-  }
+  }, [setPassword, setPasswordValidation]);
 
   const login = async () => {
     if (!EMAIL_REGEX.test(email)) {

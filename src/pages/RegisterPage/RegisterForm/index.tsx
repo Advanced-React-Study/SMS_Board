@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerAPI } from '../../../api/user';
 import { Button, InputForm } from '../../../components';
@@ -16,29 +16,29 @@ const useRegisterForm = () => {
   const [name, setName] = useState<string>('');
   const [nameValidation, setNameValidation] = useState<boolean>(true);
 
-  const onChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeEmail = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     setEmail(value);
     setEmailValidation(EMAIL_REGEX.test(value));
-  }
+  }, [setEmail, setEmailValidation]);
 
-  const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangePassword = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     setPassword(value);
     setPasswordValidation(PASSWORD_REGEX.test(value));
-  }
+  }, [setPassword, setPasswordValidation]);
 
-  const onChangeConfirmPassword = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeConfirmPassword = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     setConfirmPassword(value);
     setConfirmPasswordValidation(value === password);
-  }
+  }, [password, setConfirmPassword, setConfirmPasswordValidation]);
 
-  const onChangeName = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeName = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     setName(value);
     setNameValidation(!!value);
-  }
+  }, [setName, setNameValidation]);
 
   const register = async () => {
     if (!EMAIL_REGEX.test(email)) {
